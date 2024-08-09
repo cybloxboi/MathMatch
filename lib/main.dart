@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_match/calculate.dart';
 
 void main() => runApp(const MathMatch());
 
@@ -9,24 +10,94 @@ class MathMatch extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MathMatch',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  final String appTitle = 'MathMatch';
+  final double sizeBetween = 15;
+
+  @override
+  State<HomePage> createState() => _HomePage();
+}
+
+class _HomePage extends State<HomePage> {
+  Calculate _value = Calculate.gcd;
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        children: [
-          Text('คำนวณค.ร.น.'),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.appTitle),
       ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Wrap(
+                spacing: 20.0,
+                children: [
+                  choiceChip('ค.ร.น.', Calculate.gcd),
+                  choiceChip('ห.ร.ม.', Calculate.lcm),
+                ],
+              ),
+              SizedBox(height: widget.sizeBetween),
+              Text(
+                  'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}'),
+              SizedBox(height: widget.sizeBetween),
+              SizedBox(
+                width: 350,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'ตัวเลข',
+                    isDense: true,
+                  ),
+                  keyboardType: const TextInputType.numberWithOptions(),
+                ),
+              ),
+              SizedBox(height: widget.sizeBetween),
+              const Card(
+                child: SizedBox(
+                  width: 350,
+                  height: 100,
+                  child: Center(
+                    child: Text('จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)'),
+                  ),
+                ),
+              ),
+              SizedBox(height: widget.sizeBetween),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('คำนวณหาค่า'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ChoiceChip choiceChip(String text, Calculate value) {
+    return ChoiceChip(
+      label: Text(text),
+      selected: _value == value,
+      onSelected: (bool selected) {
+        setState(() {
+          _value = value;
+        });
+      },
     );
   }
 }

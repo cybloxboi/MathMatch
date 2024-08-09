@@ -1,0 +1,1 @@
+enum Calculate { gcd, lcm }
