@@ -37,7 +37,12 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.appTitle),
+        title: Text(
+          widget.appTitle,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Center(
         child: Padding(
@@ -54,7 +59,12 @@ class _HomePage extends State<HomePage> {
               ),
               SizedBox(height: widget.sizeBetween),
               Text(
-                  'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}'),
+                'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
               SizedBox(height: widget.sizeBetween),
               SizedBox(
                 width: 350,
@@ -64,7 +74,11 @@ class _HomePage extends State<HomePage> {
                     labelText: 'ตัวเลข',
                     isDense: true,
                   ),
+                  autofocus: true,
                   keyboardType: const TextInputType.numberWithOptions(),
+                  onTapOutside: (event) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
                 ),
               ),
               SizedBox(height: widget.sizeBetween),
@@ -80,7 +94,12 @@ class _HomePage extends State<HomePage> {
               SizedBox(height: widget.sizeBetween),
               ElevatedButton(
                 onPressed: () {},
-                child: const Text('คำนวณหาค่า'),
+                child: const Text(
+                  'คำนวณหาค่า',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
           ),
