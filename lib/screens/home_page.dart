@@ -5,7 +5,7 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   final String appTitle = 'MathMatch';
-  final double sizeBetween = 15;
+  final double sizeBetween = 25;
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -13,6 +13,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   Calculate _value = Calculate.gcd;
+  List<int> numbers = [];
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,61 @@ class _HomePage extends State<HomePage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const SingleChildScrollView(
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 8,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 25),
+                              Text(
+                                'วิธีการใช้งาน',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              Text(
+                                '1. เลือกว่าต้องการหาค.ร.น. หรือ ห.ร.ม.\n2. กรอกตัวเลขตั้งแต่ 2 จำนวนขึ้นไป\n3. กดปุ่มคำนวณหาค่า',
+                              ),
+                              SizedBox(height: 35),
+                              Divider(),
+                              SizedBox(height: 50),
+                              Text(
+                                  'แอพนี้จัดทำขึ้นโดยนักเรียนม.4/11 โรงเรียนอำนาจเจริญ'),
+                              Text('ใช้สำหรับโครงงานคณิตศาสตร์'),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text('ขอบคุณที่ใช้แอพของเรา ^~^'),
+                              SizedBox(height: 20)
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.help),
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Padding(
@@ -31,6 +88,7 @@ class _HomePage extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 20),
               Wrap(
                 spacing: 20.0,
                 children: [
@@ -38,7 +96,7 @@ class _HomePage extends State<HomePage> {
                   choiceChip('ห.ร.ม.', Calculate.lcm),
                 ],
               ),
-              SizedBox(height: widget.sizeBetween),
+              const Spacer(),
               Text(
                 'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}',
                 style: const TextStyle(
@@ -59,6 +117,12 @@ class _HomePage extends State<HomePage> {
                   keyboardType: const TextInputType.numberWithOptions(),
                   onTapOutside: (event) {
                     FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                  onFieldSubmitted: (_) {
+                    if (controller.text.isNotEmpty) {
+                      numbers.add(int.parse(controller.text));
+                      controller.clear();
+                    }
                   },
                 ),
               ),
@@ -82,6 +146,8 @@ class _HomePage extends State<HomePage> {
                   ),
                 ),
               ),
+              const Spacer(),
+              const SizedBox(height: 20),
             ],
           ),
         ),
