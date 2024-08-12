@@ -108,7 +108,7 @@ class _HomePage extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                  flex: 3,
+                  flex: 2,
                   child: TextFormField(
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -154,9 +154,9 @@ class _HomePage extends State<HomePage> {
               ],
             ),
             SizedBox(height: widget.sizeBetween),
-            Card(
-              child: SizedBox(
-                width: 350,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Card(
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -168,6 +168,7 @@ class _HomePage extends State<HomePage> {
                         } else {
                           return Wrap(
                             spacing: 8,
+                            runSpacing: 8,
                             children: numbersWidget.toList(),
                           );
                         }
