@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:math_match/model/calculate.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,16 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   Calculate _value = Calculate.gcd;
-  late List<int> numbers;
-  late TextEditingController controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = TextEditingController();
-    numbers = [];
-  }
+  List<int> numbers = [];
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +57,11 @@ class _HomePage extends State<HomePage> {
                               ),
                               SizedBox(height: 15),
                               Text(
-                                '1. เลือกว่าต้องการหาค.ร.น. หรือ ห.ร.ม.\n2. กรอกตัวเลขตั้งแต่ 2 จำนวนขึ้นไป\n3. กดปุ่มคำนวณหาค่า',
+                                '1. เลือกว่าต้องการหาค.ร.น. หรือ ห.ร.ม.\n2. กรอกตัวเลขไม่เกินหลักหมื่นตั้งแต่ 2 จำนวนขึ้นไป\nแต่ไม่เกิน 10 จำนวน\n3. กดปุ่มคำนวณหาค่า',
                               ),
                               SizedBox(height: 35),
                               Divider(),
-                              SizedBox(height: 50),
+                              SizedBox(height: 35),
                               Text(
                                   'แอพนี้จัดทำขึ้นโดยนักเรียนม.4/11 โรงเรียนอำนาจเจริญ'),
                               Text('ใช้สำหรับโครงงานคณิตศาสตร์'),
@@ -76,7 +69,7 @@ class _HomePage extends State<HomePage> {
                                 height: 15,
                               ),
                               Text('ขอบคุณที่ใช้แอพของเรา ^~^'),
-                              SizedBox(height: 20)
+                              SizedBox(height: 35)
                             ],
                           ),
                         ),
@@ -90,141 +83,111 @@ class _HomePage extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Wrap(
-                spacing: 20.0,
-                children: [
-                  choiceChip('ค.ร.น.', Calculate.gcd),
-                  choiceChip('ห.ร.ม.', Calculate.lcm),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            Wrap(
+              spacing: 20.0,
+              children: [
+                choiceChip('ค.ร.น.', Calculate.gcd),
+                choiceChip('ห.ร.ม.', Calculate.lcm),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
-              const Spacer(),
-              Text(
-                'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
-              ),
-              SizedBox(height: widget.sizeBetween),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 3,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'ตัวเลข',
-                        isDense: true,
-                      ),
-                      autofocus: true,
-                      keyboardType: const TextInputType.numberWithOptions(),
-                      onTapOutside: (event) {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                      },
-                      textInputAction: TextInputAction.done,
-                      controller: controller,
+            ),
+            SizedBox(height: widget.sizeBetween),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 3,
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'ตัวเลข',
+                      isDense: true,
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Flexible(
-                    flex: 2,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        if (controller.text.isNotEmpty) {
-                          numbers.add(int.parse(controller.text));
-                          print('เพิ่มเลข ${controller.text} ลงใน List แล้ว');
-                          print(numbers);
+                    autofocus: true,
+                    keyboardType: const TextInputType.numberWithOptions(),
+                    onTapOutside: (event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    textInputAction: TextInputAction.done,
+                    controller: controller,
+                    onFieldSubmitted: (value) {
+                      setState(() {
+                        if (value.isNotEmpty && value.length <= 5) {
+                          numbers.add(int.parse(value));
                           controller.clear();
                         }
+                      });
+                    },
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Flexible(
+                  flex: 2,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        if (controller.text.isNotEmpty &&
+                            controller.text.length <= 5) {
+                          numbers.add(int.parse(controller.text));
+                          controller.clear();
+                        }
+                      });
+                    },
+                    child: const Text('เพิ่ม'),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: widget.sizeBetween),
+            Card(
+              child: SizedBox(
+                width: 350,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Builder(
+                      builder: (_) {
+                        if (numbers.isEmpty) {
+                          return const Text(
+                              'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)');
+                        } else {
+                          return Wrap(
+                            spacing: 8,
+                            children: numbersWidget.toList(),
+                          );
+                        }
                       },
-                      child: const Text('เพิ่ม'),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: widget.sizeBetween),
-              // ---------------- กรณีไม่มีข้อมูล
-              const Card(
-                child: SizedBox(
-                  width: 350,
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text('จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)'),
                     ),
                   ),
                 ),
               ),
-              // ----------------------- กรณีมีข้อมูล
-              // Card(
-              //   child: SizedBox(
-              //     width: 350,
-              //     child: Center(
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(16),
-              //         child: Wrap(
-              //           spacing: 8,
-              //           children: [
-              //             Chip(
-              //               label: const Text('2'),
-              //               onDeleted: () {},
-              //             ),
-              //             Chip(
-              //               label: const Text('4'),
-              //               onDeleted: () {},
-              //             ),
-              //             Chip(
-              //               label: const Text('2'),
-              //               onDeleted: () {},
-              //             ),
-              //             Chip(
-              //               label: const Text('4'),
-              //               onDeleted: () {},
-              //             ),
-              //             Chip(
-              //               label: const Text('2'),
-              //               onDeleted: () {},
-              //             ),
-              //             Chip(
-              //               label: const Text('4'),
-              //               onDeleted: () {},
-              //             ),
-              //             Chip(
-              //               label: const Text('2'),
-              //               onDeleted: () {},
-              //             ),
-              //             Chip(
-              //               label: const Text('4'),
-              //               onDeleted: () {},
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              SizedBox(height: widget.sizeBetween),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'คำนวณหาค่า',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+            ),
+            SizedBox(height: widget.sizeBetween),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'คำนวณหาค่า',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const Spacer(),
-              const SizedBox(height: 100),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -240,5 +203,22 @@ class _HomePage extends State<HomePage> {
         });
       },
     );
+  }
+
+  Iterable<Widget> get numbersWidget {
+    return numbers.map((int number) {
+      return Chip(
+        label: Text(
+          number.toString(),
+        ),
+        onDeleted: () {
+          setState(() {
+            numbers.removeWhere((int entry) {
+              return entry == number;
+            });
+          });
+        },
+      );
+    });
   }
 }
