@@ -16,6 +16,7 @@ class _HomePage extends State<HomePage> {
   Calculate _value = Calculate.gcd;
   List<int> numbers = [];
   TextEditingController controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -113,30 +114,56 @@ class _HomePage extends State<HomePage> {
                   children: [
                     Flexible(
                       flex: 3,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          labelText: 'ตัวเลข',
-                          isDense: true,
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            labelText: 'ตัวเลข',
+                            isDense: true,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'ไม่มีเลขไม่ได้นะคับ พี่ต้องมีเลขให้ผมบ้าง';
+                            }
+
+                            if (value.length > 5) {
+                              return 'เลขเยอะเกินคับพี่ ขี้เกียจคิด';
+                            }
+
+                            if (numbers.contains(int.tryParse(value))) {
+                              return 'มีเลขนี้แล้วคับ';
+                            }
+
+                            return null;
+                          },
+                          autofocus: true,
+                          keyboardType: const TextInputType.numberWithOptions(),
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          textInputAction: TextInputAction.done,
+                          controller: controller,
+                          onFieldSubmitted: (value) {
+                            if (_formKey.currentState!.validate()) {
+                              addNumbers(value);
+                            }
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                         ),
-                        autofocus: true,
-                        keyboardType: const TextInputType.numberWithOptions(),
-                        onTapOutside: (event) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        textInputAction: TextInputAction.done,
-                        controller: controller,
-                        onFieldSubmitted: addNumbers,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
                       ),
                     ),
                     const SizedBox(width: 10),
                     Flexible(
                       flex: 2,
                       child: OutlinedButton(
-                        onPressed: () => addNumbers(controller.text),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            addNumbers(controller.text);
+                          }
+                        },
                         child: const Text('เพิ่ม'),
                       ),
                     ),
@@ -216,12 +243,8 @@ class _HomePage extends State<HomePage> {
 
   void addNumbers(String value) {
     setState(() {
-      if (value.isNotEmpty &&
-          value.length <= 5 &&
-          !numbers.contains(int.parse(value))) {
-        numbers.add(int.parse(value));
-        controller.clear();
-      }
+      numbers.add(int.parse(value));
+      controller.clear();
     });
   }
 }
