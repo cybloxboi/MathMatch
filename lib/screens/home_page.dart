@@ -84,111 +84,102 @@ class _HomePage extends State<HomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            Wrap(
-              spacing: 20.0,
-              children: [
-                choiceChip('ค.ร.น.', Calculate.gcd),
-                choiceChip('ห.ร.ม.', Calculate.lcm),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              Wrap(
+                spacing: 20.0,
+                children: [
+                  choiceChip('ค.ร.น.', Calculate.gcd),
+                  choiceChip('ห.ร.ม.', Calculate.lcm),
+                ],
               ),
-            ),
-            SizedBox(height: widget.sizeBetween),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  flex: 2,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'ตัวเลข',
-                      isDense: true,
-                    ),
-                    autofocus: true,
-                    keyboardType: const TextInputType.numberWithOptions(),
-                    onTapOutside: (event) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                    textInputAction: TextInputAction.done,
-                    controller: controller,
-                    onFieldSubmitted: (value) {
-                      setState(() {
-                        if (value.isNotEmpty && value.length <= 5) {
-                          numbers.add(int.parse(value));
-                          controller.clear();
-                        }
-                      });
-                    },
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Flexible(
-                  flex: 2,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        if (controller.text.isNotEmpty &&
-                            controller.text.length <= 5) {
-                          numbers.add(int.parse(controller.text));
-                          controller.clear();
-                        }
-                      });
-                    },
-                    child: const Text('เพิ่ม'),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: widget.sizeBetween),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Card(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Builder(
-                      builder: (_) {
-                        if (numbers.isEmpty) {
-                          return const Text(
-                              'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)');
-                        } else {
-                          return Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: numbersWidget.toList(),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: widget.sizeBetween),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'คำนวณหาค่า',
-                style: TextStyle(
+              const SizedBox(height: 20),
+              Text(
+                'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}',
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 15,
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: widget.sizeBetween),
+              SizedBox(
+                width: 350,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'ตัวเลข',
+                          isDense: true,
+                        ),
+                        autofocus: true,
+                        keyboardType: const TextInputType.numberWithOptions(),
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        textInputAction: TextInputAction.done,
+                        controller: controller,
+                        onFieldSubmitted: addNumbers,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      flex: 2,
+                      child: OutlinedButton(
+                        onPressed: () => addNumbers(controller.text),
+                        child: const Text('เพิ่ม'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: widget.sizeBetween),
+              Card(
+                child: SizedBox(
+                  width: 350,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Builder(
+                        builder: (_) {
+                          if (numbers.isEmpty) {
+                            return const Text(
+                                'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)');
+                          } else {
+                            return Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: numbersWidget.toList(),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: widget.sizeBetween),
+              ElevatedButton(
+                onPressed: numbers.length < 2 ? null : () {},
+                child: const Text(
+                  'คำนวณหาค่า',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -220,6 +211,17 @@ class _HomePage extends State<HomePage> {
           });
         },
       );
+    });
+  }
+
+  void addNumbers(String value) {
+    setState(() {
+      if (value.isNotEmpty &&
+          value.length <= 5 &&
+          !numbers.contains(int.parse(value))) {
+        numbers.add(int.parse(value));
+        controller.clear();
+      }
     });
   }
 }
