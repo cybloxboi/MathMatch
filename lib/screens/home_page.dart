@@ -13,8 +13,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   Calculate _value = Calculate.gcd;
-  List<int> numbers = [];
-  TextEditingController controller = TextEditingController();
+  late List<int> numbers;
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = TextEditingController();
+    numbers = [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,37 +113,104 @@ class _HomePage extends State<HomePage> {
                 ),
               ),
               SizedBox(height: widget.sizeBetween),
-              SizedBox(
-                width: 350,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'ตัวเลข',
-                    isDense: true,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'ตัวเลข',
+                        isDense: true,
+                      ),
+                      autofocus: true,
+                      keyboardType: const TextInputType.numberWithOptions(),
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      textInputAction: TextInputAction.done,
+                      controller: controller,
+                    ),
                   ),
-                  autofocus: true,
-                  keyboardType: const TextInputType.numberWithOptions(),
-                  onTapOutside: (event) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  onFieldSubmitted: (_) {
-                    if (controller.text.isNotEmpty) {
-                      numbers.add(int.parse(controller.text));
-                      controller.clear();
-                    }
-                  },
-                ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    flex: 2,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        if (controller.text.isNotEmpty) {
+                          numbers.add(int.parse(controller.text));
+                          print('เพิ่มเลข ${controller.text} ลงใน List แล้ว');
+                          print(numbers);
+                          controller.clear();
+                        }
+                      },
+                      child: const Text('เพิ่ม'),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: widget.sizeBetween),
+              // ---------------- กรณีไม่มีข้อมูล
               const Card(
                 child: SizedBox(
                   width: 350,
-                  height: 100,
                   child: Center(
-                    child: Text('จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)'),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text('จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)'),
+                    ),
                   ),
                 ),
               ),
+              // ----------------------- กรณีมีข้อมูล
+              // Card(
+              //   child: SizedBox(
+              //     width: 350,
+              //     child: Center(
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(16),
+              //         child: Wrap(
+              //           spacing: 8,
+              //           children: [
+              //             Chip(
+              //               label: const Text('2'),
+              //               onDeleted: () {},
+              //             ),
+              //             Chip(
+              //               label: const Text('4'),
+              //               onDeleted: () {},
+              //             ),
+              //             Chip(
+              //               label: const Text('2'),
+              //               onDeleted: () {},
+              //             ),
+              //             Chip(
+              //               label: const Text('4'),
+              //               onDeleted: () {},
+              //             ),
+              //             Chip(
+              //               label: const Text('2'),
+              //               onDeleted: () {},
+              //             ),
+              //             Chip(
+              //               label: const Text('4'),
+              //               onDeleted: () {},
+              //             ),
+              //             Chip(
+              //               label: const Text('2'),
+              //               onDeleted: () {},
+              //             ),
+              //             Chip(
+              //               label: const Text('4'),
+              //               onDeleted: () {},
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: widget.sizeBetween),
               ElevatedButton(
                 onPressed: () {},
@@ -147,7 +222,7 @@ class _HomePage extends State<HomePage> {
                 ),
               ),
               const Spacer(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 100),
             ],
           ),
         ),
