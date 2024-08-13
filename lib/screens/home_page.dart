@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:math_match/model/calculate.dart';
+import 'package:math_match/widgets/app_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,91 +14,51 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  Calculate _value = Calculate.gcd;
-  List<int> numbers = [];
-  TextEditingController controller = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  late Calculate _value;
+  late List<int> numbers;
+  late TextEditingController controller;
+  late bool _solutionVisible;
+  late bool _isAlreadyVisible;
+  late GlobalKey<FormState> _formKey;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = TextEditingController();
+    _formKey = GlobalKey<FormState>();
+    _solutionVisible = false;
+    _isAlreadyVisible = false;
+    numbers = [];
+    _value = Calculate.lcm;
+    numbers = [];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.appTitle,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const SingleChildScrollView(
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 8,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 25),
-                              Text(
-                                'วิธีการใช้งาน',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              Text(
-                                '1. เลือกว่าต้องการหาค.ร.น. หรือ ห.ร.ม.\n2. กรอกตัวเลขไม่เกินหลักหมื่นตั้งแต่ 2 จำนวนขึ้นไป\nแต่ไม่เกิน 10 จำนวน\n3. กดปุ่มคำนวณหาค่า',
-                              ),
-                              SizedBox(height: 35),
-                              Divider(),
-                              SizedBox(height: 35),
-                              Text(
-                                  'แอพนี้จัดทำขึ้นโดยนักเรียนม.4/11 โรงเรียนอำนาจเจริญ'),
-                              Text('ใช้สำหรับโครงงานคณิตศาสตร์'),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text('ขอบคุณที่ใช้แอพของเรา ^~^'),
-                              SizedBox(height: 35)
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              icon: const Icon(Icons.help),
-            ),
-          ),
-        ],
-      ),
+      appBar: appBarTitle(context, widget.appTitle),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: widget.sizeBetween),
               Wrap(
                 spacing: 20.0,
                 children: [
-                  choiceChip('ค.ร.น.', Calculate.gcd),
-                  choiceChip('ห.ร.ม.', Calculate.lcm),
+                  choiceChip('ค.ร.น.', Calculate.lcm),
+                  choiceChip('ห.ร.ม.', Calculate.gcd),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: widget.sizeBetween),
               Text(
                 'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.gcd ? 'ค.ร.น.' : 'ห.ร.ม.'}',
                 style: const TextStyle(
@@ -123,6 +84,10 @@ class _HomePage extends State<HomePage> {
                             isDense: true,
                           ),
                           validator: (value) {
+                            if (numbers.length == 10) {
+                              return 'ตันแล้วคับ';
+                            }
+
                             if (value == null || value.isEmpty) {
                               return 'ไม่มีเลขไม่ได้นะคับ พี่ต้องมีเลขให้ผมบ้าง';
                             }
@@ -197,11 +162,56 @@ class _HomePage extends State<HomePage> {
               ),
               SizedBox(height: widget.sizeBetween),
               ElevatedButton(
-                onPressed: numbers.length < 2 ? null : () {},
+                onPressed: numbers.length < 2
+                    ? null
+                    : () {
+                        for (int number in numbers) {
+                          print(
+                              'ตัวประกอบของ $number คือ ${factorizeNumbers(numbers)[number]}');
+                        }
+
+                        print(
+                            'ตัวประกอบร่วมของ $numbers คือ ${findCommonFactors(factorizeNumbers(numbers))}');
+                        print(
+                            'ห.ร.ม. ของ $numbers คือ ${findCommonFactors(factorizeNumbers(numbers))[1]}');
+
+                        setState(() {
+                          _solutionVisible = !_solutionVisible;
+                          _isAlreadyVisible = true;
+                        });
+                      },
                 child: const Text(
                   'คำนวณหาค่า',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: widget.sizeBetween),
+              AnimatedOpacity(
+                opacity: _solutionVisible || _isAlreadyVisible ? 1 : 0,
+                duration: Durations.medium2,
+                child: Card(
+                  child: SizedBox(
+                    width: 350,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            Text(
+                              _value == Calculate.lcm
+                                  ? 'แก้ปัญหาโดยการแยกตัวประกอบ'
+                                  : 'แก้ปัญหาโดยการหาตัวคูณร่วม',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
