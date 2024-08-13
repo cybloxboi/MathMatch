@@ -246,6 +246,7 @@ class _HomePage extends State<HomePage> {
             _isAlreadyVisible = true;
           }
         },
+        deleteButtonTooltipMessage: 'ลบตัวเลข',
       );
     });
   }
