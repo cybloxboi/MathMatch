@@ -17,7 +17,7 @@ Widget solutionCard(bool cardVisible, bool isAlreadyVisible, bool isGCD, List<in
               width: 350,
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
                       const Text(
@@ -39,6 +39,7 @@ Widget solutionCard(bool cardVisible, bool isAlreadyVisible, bool isGCD, List<in
                           );
                         },
                       ),
+                      const SizedBox(height: 8),
                       Text('ตัวประกอบร่วมของ $numbers คือ $commonFactors'),
                       const SizedBox(height: 8),
                       Text(
