@@ -62,6 +62,7 @@ Widget solutionCard(
   } else {
     int lcmResult = lcmMultiple(numbers);
     Map<int, List<int>> factorsMap = listOfFactors(numbers, lcmResult);
+    List<int> commonFactors = findCommonFactors(factorsMap);
 
     return AnimatedOpacity(
       opacity: cardVisible ? 1 : 0,
@@ -88,10 +89,12 @@ Widget solutionCard(
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text('ตัวคูณของ ${numbers[index]} คือ'),
-                      subtitle: Text(factorsMap[numbers[index]].toString()),
+                      subtitle: Text('${factorsMap[numbers[index]]}...'),
                     );
                   },
                 ),
+                const SizedBox(height: 8),
+                Text('ตัวคูณร่วมของ $numbers คือ $commonFactors'),
                 const SizedBox(height: 8),
                 Text(
                   'ดังนั้น ค.ร.น. ของ $numbers คือ $lcmResult',

@@ -66,15 +66,13 @@ Map<int, List<int>> listOfFactors(List<int> numbers, int lcm) {
     List<int> factors = [];
     int multiply = 2;
 
-    while (number * multiply <= lcm) {
+    factors.add(number);
+
+    while (number * multiply <= lcm || factors.length < 6) {
       factors.add(number * multiply);
       multiply++;
     }
 
-    if (factors.isEmpty) {
-      factors.add(number);
-    }
-    
     factorsMap[number] = factors;
   }
 
