@@ -1,6 +1,5 @@
 enum Calculate { gcd, lcm }
 
-// ห.ร.ม.
 // แยกตัวประกอบ
 Map<int, List<int>> factorizeNumbers(List<int> numbers) {
   Map<int, List<int>> factorsMap = {};
@@ -32,4 +31,13 @@ List<int> findCommonFactors(Map<int, List<int>> factorsMap) {
   }
 
   return commonFactors;
+}
+
+// ห.ร.ม.
+int findGCD(List<int> numbers) {
+  Map<int, List<int>> factorsMap = factorizeNumbers(numbers);
+  List<int> commonFactors = findCommonFactors(factorsMap);
+
+  // เอาเฉพาะลำดับที่ 2 (Index = 1) ไม่เอาเลข 1 ที่อยู่ (Index = 0)
+  return commonFactors[1];
 }

@@ -173,7 +173,7 @@ class _HomePage extends State<HomePage> {
                         print(
                             'ตัวประกอบร่วมของ $numbers คือ ${findCommonFactors(factorizeNumbers(numbers))}');
                         print(
-                            'ห.ร.ม. ของ $numbers คือ ${findCommonFactors(factorizeNumbers(numbers))[1]}');
+                            'ห.ร.ม. ของ $numbers คือ ${findGCD(numbers)}');
 
                         setState(() {
                           _solutionVisible = !_solutionVisible;
