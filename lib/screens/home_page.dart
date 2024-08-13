@@ -200,7 +200,7 @@ class _HomePage extends State<HomePage> {
                         child: Column(
                           children: [
                             Text(
-                              _value == Calculate.lcm
+                              _value == Calculate.gcd
                                   ? 'แก้ปัญหาโดยการแยกตัวประกอบ'
                                   : 'แก้ปัญหาโดยการหาตัวคูณร่วม',
                               style: const TextStyle(
