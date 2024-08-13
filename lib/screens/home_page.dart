@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:math_match/model/calculate.dart';
 import 'package:math_match/widgets/app_bar.dart';
+import 'package:math_match/widgets/solution_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -92,6 +93,10 @@ class _HomePage extends State<HomePage> {
                               return 'ไม่มีเลขไม่ได้นะคับ พี่ต้องมีเลขให้ผมบ้าง';
                             }
 
+                            if (int.tryParse(value)! <= 0) {
+                              return 'เป้นบ้าติ ใส่เลข $value';
+                            }
+
                             if (value.length > 5) {
                               return 'เลขเยอะเกินคับพี่ ขี้เกียจคิด';
                             }
@@ -102,7 +107,6 @@ class _HomePage extends State<HomePage> {
 
                             return null;
                           },
-                          autofocus: true,
                           keyboardType: const TextInputType.numberWithOptions(),
                           onTapOutside: (event) {
                             FocusManager.instance.primaryFocus?.unfocus();
@@ -112,6 +116,13 @@ class _HomePage extends State<HomePage> {
                           onFieldSubmitted: (value) {
                             if (_formKey.currentState!.validate()) {
                               addNumbers(value);
+                            }
+
+                            if (_solutionVisible) {
+                              setState(() {
+                                _solutionVisible = !_solutionVisible;
+                                _isAlreadyVisible = true;
+                              });
                             }
                           },
                           inputFormatters: [
@@ -127,6 +138,13 @@ class _HomePage extends State<HomePage> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             addNumbers(controller.text);
+                          }
+
+                          if (_solutionVisible) {
+                            setState(() {
+                              _solutionVisible = !_solutionVisible;
+                              _isAlreadyVisible = true;
+                            });
                           }
                         },
                         child: const Text('เพิ่ม'),
@@ -165,19 +183,9 @@ class _HomePage extends State<HomePage> {
                 onPressed: numbers.length < 2
                     ? null
                     : () {
-                        for (int number in numbers) {
-                          print(
-                              'ตัวประกอบของ $number คือ ${factorizeNumbers(numbers)[number]}');
-                        }
-
-                        print(
-                            'ตัวประกอบร่วมของ $numbers คือ ${findCommonFactors(factorizeNumbers(numbers))}');
-                        print(
-                            'ห.ร.ม. ของ $numbers คือ ${findGCD(numbers)}');
-
                         setState(() {
                           _solutionVisible = !_solutionVisible;
-                          _isAlreadyVisible = true;
+                          _isAlreadyVisible = false;
                         });
                       },
                 child: const Text(
@@ -188,33 +196,10 @@ class _HomePage extends State<HomePage> {
                 ),
               ),
               SizedBox(height: widget.sizeBetween),
-              AnimatedOpacity(
-                opacity: _solutionVisible || _isAlreadyVisible ? 1 : 0,
-                duration: Durations.medium2,
-                child: Card(
-                  child: SizedBox(
-                    width: 350,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            Text(
-                              _value == Calculate.gcd
-                                  ? 'แก้ปัญหาโดยการแยกตัวประกอบ'
-                                  : 'แก้ปัญหาโดยการหาตัวคูณร่วม',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              numbers.isNotEmpty
+                  ? solutionCard(_solutionVisible, _isAlreadyVisible,
+                      _value == Calculate.gcd, numbers)
+                  : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -230,6 +215,13 @@ class _HomePage extends State<HomePage> {
         setState(() {
           _value = value;
         });
+
+        if (_solutionVisible) {
+          setState(() {
+            _solutionVisible = !_solutionVisible;
+            _isAlreadyVisible = true;
+          });
+        }
       },
     );
   }
@@ -246,6 +238,11 @@ class _HomePage extends State<HomePage> {
               return entry == number;
             });
           });
+
+          if (_solutionVisible) {
+            _solutionVisible = !_solutionVisible;
+            _isAlreadyVisible = true;
+          }
         },
       );
     });

@@ -39,5 +39,9 @@ int findGCD(List<int> numbers) {
   List<int> commonFactors = findCommonFactors(factorsMap);
 
   // เอาเฉพาะลำดับที่ 2 (Index = 1) ไม่เอาเลข 1 ที่อยู่ (Index = 0)
-  return commonFactors[1];
+  if (commonFactors.length == 1) {
+    return commonFactors[0];
+  } else {
+    return commonFactors[1];
+  }
 }
