@@ -89,7 +89,8 @@ Widget solutionCard(
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text('ตัวคูณของ ${numbers[index]} คือ'),
-                      subtitle: Text('${factorsMap[numbers[index]]}...'),
+                      subtitle: Text(
+                          '${factorsMap[numbers[index]]!.first != numbers[index] ? '...' : ''}${factorsMap[numbers[index]]}...'),
                     );
                   },
                 ),

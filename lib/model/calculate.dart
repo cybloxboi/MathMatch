@@ -69,6 +69,10 @@ Map<int, List<int>> listOfFactors(List<int> numbers, int lcm) {
     factors.add(number);
 
     while (number * multiply <= lcm || factors.length < 6) {
+      if (factors.length > 6) {
+        factors.removeAt(0);
+      }
+
       factors.add(number * multiply);
       multiply++;
     }
