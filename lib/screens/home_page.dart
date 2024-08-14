@@ -46,8 +46,8 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarTitle(context, widget.appTitle),
-      body: SingleChildScrollView(
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
