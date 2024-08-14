@@ -52,7 +52,7 @@ class _HomePage extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: widget.sizeBetween),
+                const SizedBox(height: 15),
                 Wrap(
                   spacing: 20.0,
                   children: [
@@ -89,26 +89,27 @@ class _HomePage extends State<HomePage> {
                               if (numbers.length == 10) {
                                 return 'จำนวนตัวเลข ครบ 10 จำนวนแล้ว';
                               }
-          
+
                               if (value == null || value.isEmpty) {
                                 return 'กรุณาเติมตัวเลข';
                               }
-          
+
                               if (int.tryParse(value)! <= 0) {
                                 return 'ไม่สามารถกรอกตัวเลข $value ได้';
                               }
-          
+
                               if (value.length > 5) {
                                 return 'ไม่สามารถกรอกจำนวนที่มากกว่าหลักหมื่นได้';
                               }
-          
+
                               if (numbers.contains(int.tryParse(value))) {
                                 return 'มีตัวเลขนี้อยู่แล้ว';
                               }
-          
+
                               return null;
                             },
-                            keyboardType: const TextInputType.numberWithOptions(),
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
                             onTapOutside: (event) {
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
@@ -118,7 +119,7 @@ class _HomePage extends State<HomePage> {
                               if (_formKey.currentState!.validate()) {
                                 addNumbers(value);
                               }
-          
+
                               if (_solutionVisible) {
                                 setState(() {
                                   _solutionVisible = !_solutionVisible;
@@ -140,7 +141,7 @@ class _HomePage extends State<HomePage> {
                             if (_formKey.currentState!.validate()) {
                               addNumbers(controller.text);
                             }
-          
+
                             if (_solutionVisible) {
                               setState(() {
                                 _solutionVisible = !_solutionVisible;
@@ -184,10 +185,12 @@ class _HomePage extends State<HomePage> {
                   onPressed: numbers.length < 2
                       ? null
                       : () {
-                          setState(() {
-                            _solutionVisible = !_solutionVisible;
-                            _isAlreadyVisible = false;
-                          });
+                          if (!_solutionVisible) {
+                            setState(() {
+                              _solutionVisible = !_solutionVisible;
+                              _isAlreadyVisible = false;
+                            });
+                          }
                         },
                   child: const Text(
                     'คำนวณหาค่า',
@@ -201,6 +204,7 @@ class _HomePage extends State<HomePage> {
                     ? solutionCard(_solutionVisible, _isAlreadyVisible,
                         _value == Calculate.gcd, numbers)
                     : const SizedBox.shrink(),
+                SizedBox(height: widget.sizeBetween),
               ],
             ),
           ),
