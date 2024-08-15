@@ -53,6 +53,7 @@ class _HomePage extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 15),
+                // ปุ่มเลือกหาค.ร.น. หรือห.ร.ม.
                 Wrap(
                   spacing: 20.0,
                   children: [
@@ -61,6 +62,7 @@ class _HomePage extends State<HomePage> {
                   ],
                 ),
                 SizedBox(height: widget.sizeBetween),
+                // แบบฟอร์ม
                 Text(
                   'กรอกตัวเลขที่ต้องการหา ${_value == Calculate.lcm ? 'ค.ร.น.' : 'ห.ร.ม.'}',
                   style: const TextStyle(

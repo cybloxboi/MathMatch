@@ -55,7 +55,6 @@ Widget solutionCard(
               ),
             ),
           ),
-          const SizedBox(height: 20),
         ],
       ),
     );

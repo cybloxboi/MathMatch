@@ -67,7 +67,8 @@ PreferredSizeWidget appBarTitle(BuildContext context, String appTitle) {
                             Text('ขอบคุณที่ใช้งานแอพของเรา ^~^'),
                             SizedBox(height: 15),
                             Text('หากเกิดข้อผิดพลาดประการใด'),
-                            Text('ขอน้อมรับปรับปรุง แก้ไข และขออภัย ณ ที่นี่ด้วย'),
+                            Text(
+                                'ขอน้อมรับปรับปรุง แก้ไข และขออภัย ณ ที่นี่ด้วย'),
                           ],
                         ),
                       ),
