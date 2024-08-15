@@ -170,10 +170,26 @@ class _HomePage extends State<HomePage> {
                               return const Text(
                                   'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)');
                             } else {
-                              return Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: numbersWidget.toList(),
+                              return Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          numbers.clear();
+                                        });
+                                      },
+                                      child: const Text('ล้างทั้งหมด'),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: numbersWidget.toList(),
+                                  ),
+                                ],
                               );
                             }
                           },
@@ -206,7 +222,6 @@ class _HomePage extends State<HomePage> {
                     ? solutionCard(_solutionVisible, _isAlreadyVisible,
                         _value == Calculate.gcd, numbers)
                     : const SizedBox.shrink(),
-                SizedBox(height: widget.sizeBetween),
               ],
             ),
           ),

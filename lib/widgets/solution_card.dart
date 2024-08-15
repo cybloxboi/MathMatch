@@ -36,12 +36,14 @@ Widget solutionCard(
                         itemBuilder: (context, index) {
                           return ListTile(
                             title: Text('ตัวประกอบของ ${numbers[index]} คือ'),
-                            subtitle: Text(listToString(factors[numbers[index]]!)),
+                            subtitle:
+                                Text(listToString(factors[numbers[index]]!)),
                           );
                         },
                       ),
                       const SizedBox(height: 8),
-                      Text('ตัวประกอบร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
+                      Text(
+                          'ตัวประกอบร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
                       const SizedBox(height: 8),
                       Text(
                         'ดังนั้น ห.ร.ม. ของ ${listToString(numbers)} คือ $gcd',
@@ -94,7 +96,8 @@ Widget solutionCard(
                   },
                 ),
                 const SizedBox(height: 8),
-                Text('ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
+                Text(
+                    'ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
                 const SizedBox(height: 8),
                 Text(
                   'ดังนั้น ค.ร.น. ของ ${listToString(numbers)} คือ $lcmResult',
