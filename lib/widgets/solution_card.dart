@@ -36,15 +36,15 @@ Widget solutionCard(
                         itemBuilder: (context, index) {
                           return ListTile(
                             title: Text('ตัวประกอบของ ${numbers[index]} คือ'),
-                            subtitle: Text(factors[numbers[index]].toString()),
+                            subtitle: Text(listToString(factors[numbers[index]]!)),
                           );
                         },
                       ),
                       const SizedBox(height: 8),
-                      Text('ตัวประกอบร่วมของ $numbers คือ $commonFactors'),
+                      Text('ตัวประกอบร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
                       const SizedBox(height: 8),
                       Text(
-                        'ดังนั้น ห.ร.ม. ของ $numbers คือ $gcd',
+                        'ดังนั้น ห.ร.ม. ของ ${listToString(numbers)} คือ $gcd',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -89,15 +89,15 @@ Widget solutionCard(
                     return ListTile(
                       title: Text('ตัวคูณของ ${numbers[index]} คือ'),
                       subtitle: Text(
-                          '${factorsMap[numbers[index]]!.first != numbers[index] ? '...' : ''}${factorsMap[numbers[index]]}...'),
+                          '${factorsMap[numbers[index]]!.first != numbers[index] ? '...' : ''}${listToString(factorsMap[numbers[index]]!)}...'),
                     );
                   },
                 ),
                 const SizedBox(height: 8),
-                Text('ตัวคูณร่วมของ $numbers คือ $commonFactors'),
+                Text('ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
                 const SizedBox(height: 8),
                 Text(
-                  'ดังนั้น ค.ร.น. ของ $numbers คือ $lcmResult',
+                  'ดังนั้น ค.ร.น. ของ ${listToString(numbers)} คือ $lcmResult',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -109,4 +109,22 @@ Widget solutionCard(
       ),
     );
   }
+}
+
+String listToString(List<int> numbers) {
+  String text = '';
+
+  for (int number in numbers) {
+    text += number.toString();
+
+    if (numbers.length > 1) {
+      if (number == numbers[numbers.length - 2]) {
+        text += ' และ ';
+      } else if (number != numbers.last) {
+        text += ', ';
+      }
+    }
+  }
+
+  return text;
 }
