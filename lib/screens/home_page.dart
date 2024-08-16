@@ -272,6 +272,7 @@ class _HomePage extends State<HomePage> {
   void addNumbers(String value) {
     setState(() {
       numbers.add(int.parse(value));
+      numbers.sort();
       controller.clear();
     });
   }

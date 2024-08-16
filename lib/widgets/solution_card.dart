@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_match/main.dart';
 import 'package:math_match/model/calculate.dart';
 
 Widget solutionCard(bool isGCD, List<int> numbers) {
@@ -42,7 +43,7 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
                         'ตัวประกอบร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
                     const SizedBox(height: 8),
                     Text(
-                      'ดังนั้น ห.ร.ม. ของ ${listToString(numbers)} คือ $gcd',
+                      'ดังนั้น ห.ร.ม. ของ ${listToString(numbers)} คือ ${formatter.format(gcd)}',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -92,7 +93,7 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
                   'ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
               const SizedBox(height: 8),
               Text(
-                'ดังนั้น ค.ร.น. ของ ${listToString(numbers)} คือ $lcmResult',
+                'ดังนั้น ค.ร.น. ของ ${listToString(numbers)} คือ ${formatter.format(lcmResult)}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -109,7 +110,7 @@ String listToString(List<int> numbers) {
   String text = '';
 
   for (int number in numbers) {
-    text += number.toString();
+    text += formatter.format(number);
 
     if (numbers.length > 1) {
       if (number == numbers[numbers.length - 2]) {
