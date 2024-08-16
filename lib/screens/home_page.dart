@@ -42,9 +42,9 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final BoxConstraints boxConstraints = BoxConstraints(
+    const BoxConstraints boxConstraints = BoxConstraints(
       minWidth: 350,
-      maxWidth: MediaQuery.of(context).size.width * 0.5,
+      maxWidth: 500,
     );
 
     return Scaffold(
@@ -226,7 +226,6 @@ class _HomePage extends State<HomePage> {
                         ? solutionCard(
                             _value == Calculate.gcd,
                             numbers,
-                            context,
                           )
                         : const SizedBox.shrink(),
                   ),

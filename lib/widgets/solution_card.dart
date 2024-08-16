@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:math_match/main.dart';
 import 'package:math_match/model/calculate.dart';
 
-Widget solutionCard(bool isGCD, List<int> numbers, BuildContext context) {
+Widget solutionCard(bool isGCD, List<int> numbers) {
   if (isGCD) {
     Map<int, List<int>> factors = factorizeNumbers(numbers);
     List<int> commonFactors = findCommonFactors(factors);
@@ -10,9 +10,9 @@ Widget solutionCard(bool isGCD, List<int> numbers, BuildContext context) {
 
     return Card(
       child: ConstrainedBox(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           minWidth: 350,
-          maxWidth: MediaQuery.of(context).size.width * 0.5,
+          maxWidth: 500,
         ),
         child: Center(
           child: Padding(
@@ -61,9 +61,9 @@ Widget solutionCard(bool isGCD, List<int> numbers, BuildContext context) {
 
     return Card(
       child: ConstrainedBox(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           minWidth: 350,
-          maxWidth: MediaQuery.of(context).size.width * 0.5,
+          maxWidth: 500,
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
