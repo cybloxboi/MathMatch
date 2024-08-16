@@ -2,59 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:math_match/main.dart';
 import 'package:math_match/model/calculate.dart';
 
-Widget solutionCard(bool isGCD, List<int> numbers) {
+Widget solutionCard(bool isGCD, List<int> numbers, BuildContext context) {
   if (isGCD) {
     Map<int, List<int>> factors = factorizeNumbers(numbers);
     List<int> commonFactors = findCommonFactors(factors);
     int gcd = findGCD(numbers);
 
-    return Column(
-      children: [
-        Card(
-          child: SizedBox(
-            width: 350,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const Text(
-                      'แก้ปัญหาโดยการแยกตัวประกอบ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ListView.builder(
-                      itemCount: numbers.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text('ตัวประกอบของ ${numbers[index]} คือ'),
-                          subtitle:
-                              Text(listToString(factors[numbers[index]]!)),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                        'ตัวประกอบร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
-                    const SizedBox(height: 8),
-                    Text(
-                      'ดังนั้น ห.ร.ม. ของ ${listToString(numbers)} คือ ${formatter.format(gcd)}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+    return Card(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: 350,
+          maxWidth: MediaQuery.of(context).size.width * 0.7,
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                const Text(
+                  'แก้ปัญหาโดยการแยกตัวประกอบ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 8),
+                ListView.builder(
+                  itemCount: numbers.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text('ตัวประกอบของ ${numbers[index]} คือ'),
+                      subtitle: Text(listToString(factors[numbers[index]]!)),
+                    );
+                  },
+                ),
+                const SizedBox(height: 8),
+                Text(
+                    'ตัวประกอบร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
+                const SizedBox(height: 8),
+                Text(
+                  'ดังนั้น ห.ร.ม. ของ ${listToString(numbers)} คือ ${formatter.format(gcd)}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-      ],
+      ),
     );
   } else {
     int lcmResult = lcmMultiple(numbers);
@@ -62,8 +60,11 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
     List<int> commonFactors = findCommonFactors(factorsMap);
 
     return Card(
-      child: SizedBox(
-        width: 350,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: 350,
+          maxWidth: MediaQuery.of(context).size.width * 0.7,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -90,7 +91,7 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
               ),
               const SizedBox(height: 8),
               Text(
-                  'ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
+                  'ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}...'),
               const SizedBox(height: 8),
               Text(
                 'ดังนั้น ค.ร.น. ของ ${listToString(numbers)} คือ ${formatter.format(lcmResult)}',
