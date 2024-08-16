@@ -12,7 +12,7 @@ Widget solutionCard(bool isGCD, List<int> numbers, BuildContext context) {
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: 350,
-          maxWidth: MediaQuery.of(context).size.width * 0.7,
+          maxWidth: MediaQuery.of(context).size.width * 0.5,
         ),
         child: Center(
           child: Padding(
@@ -63,7 +63,7 @@ Widget solutionCard(bool isGCD, List<int> numbers, BuildContext context) {
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: 350,
-          maxWidth: MediaQuery.of(context).size.width * 0.7,
+          maxWidth: MediaQuery.of(context).size.width * 0.5,
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
