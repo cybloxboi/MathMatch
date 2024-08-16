@@ -19,7 +19,6 @@ class _HomePage extends State<HomePage> {
   late List<int> numbers;
   late TextEditingController controller;
   late bool _solutionVisible;
-  late bool _isAlreadyVisible;
   late GlobalKey<FormState> _formKey;
 
   @override
@@ -29,7 +28,6 @@ class _HomePage extends State<HomePage> {
     controller = TextEditingController();
     _formKey = GlobalKey<FormState>();
     _solutionVisible = false;
-    _isAlreadyVisible = false;
     numbers = [];
     _value = Calculate.lcm;
     numbers = [];
@@ -125,7 +123,6 @@ class _HomePage extends State<HomePage> {
                               if (_solutionVisible) {
                                 setState(() {
                                   _solutionVisible = !_solutionVisible;
-                                  _isAlreadyVisible = true;
                                 });
                               }
                             },
@@ -147,7 +144,6 @@ class _HomePage extends State<HomePage> {
                             if (_solutionVisible) {
                               setState(() {
                                 _solutionVisible = !_solutionVisible;
-                                _isAlreadyVisible = true;
                               });
                             }
                           },
@@ -206,7 +202,6 @@ class _HomePage extends State<HomePage> {
                           if (!_solutionVisible) {
                             setState(() {
                               _solutionVisible = !_solutionVisible;
-                              _isAlreadyVisible = false;
                             });
                           }
                         },
@@ -218,10 +213,14 @@ class _HomePage extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: widget.sizeBetween),
-                numbers.isNotEmpty
-                    ? solutionCard(_solutionVisible, _isAlreadyVisible,
-                        _value == Calculate.gcd, numbers)
-                    : const SizedBox.shrink(),
+                AnimatedOpacity(
+                  opacity: _solutionVisible ? 1 : 0,
+                  duration: Durations.medium2,
+                  child: numbers.isNotEmpty && _solutionVisible
+                      ? solutionCard(_value == Calculate.gcd, numbers)
+                      : const SizedBox.shrink(),
+                ),
+                SizedBox(height: widget.sizeBetween),
               ],
             ),
           ),
@@ -242,7 +241,6 @@ class _HomePage extends State<HomePage> {
         if (_solutionVisible) {
           setState(() {
             _solutionVisible = !_solutionVisible;
-            _isAlreadyVisible = true;
           });
         }
       },
@@ -264,7 +262,6 @@ class _HomePage extends State<HomePage> {
 
           if (_solutionVisible) {
             _solutionVisible = !_solutionVisible;
-            _isAlreadyVisible = true;
           }
         },
         deleteButtonTooltipMessage: 'ลบตัวเลข',
