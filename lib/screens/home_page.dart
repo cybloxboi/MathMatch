@@ -83,7 +83,7 @@ class _HomePage extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Flexible(
-                          flex: 4,
+                          flex: 2,
                           child: Form(
                             key: _formKey,
                             child: TextFormField(
@@ -141,7 +141,7 @@ class _HomePage extends State<HomePage> {
                         ),
                         SizedBox(width: widget.sizeBetween),
                         Flexible(
-                          flex: 2,
+                          flex: 1,
                           child: OutlinedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
