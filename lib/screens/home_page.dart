@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:math_match/main.dart';
 import 'package:math_match/model/calculate.dart';
 import 'package:math_match/widgets/app_bar.dart';
 import 'package:math_match/widgets/solution_card.dart';
@@ -166,35 +167,40 @@ class _HomePage extends State<HomePage> {
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(16),
-                          child: Builder(
-                            builder: (_) {
-                              if (numbers.isEmpty) {
-                                return const Text(
-                                    'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)');
-                              } else {
-                                return Column(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            numbers.clear();
-                                          });
-                                        },
-                                        child: const Text('ล้างทั้งหมด'),
+                          child: AnimatedSize(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                            child: Builder(
+                              builder: (_) {
+                                if (numbers.isEmpty) {
+                                  return const Text(
+                                    'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)',
+                                  );
+                                } else {
+                                  return Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              numbers.clear();
+                                            });
+                                          },
+                                          child: const Text('ล้างทั้งหมด'),
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
-                                      children: numbersWidget.toList(),
-                                    ),
-                                  ],
-                                );
-                              }
-                            },
+                                      const SizedBox(height: 8),
+                                      Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: numbersWidget.toList(),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -260,9 +266,7 @@ class _HomePage extends State<HomePage> {
   Iterable<Widget> get numbersWidget {
     return numbers.map((int number) {
       return Chip(
-        label: Text(
-          number.toString(),
-        ),
+        label: Text(formatter.format(number)),
         onDeleted: () {
           setState(() {
             numbers.removeWhere((int entry) {
