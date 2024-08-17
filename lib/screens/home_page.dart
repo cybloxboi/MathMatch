@@ -275,7 +275,9 @@ class _HomePage extends State<HomePage> {
           });
 
           if (_solutionVisible) {
-            _solutionVisible = !_solutionVisible;
+            setState(() {
+              _solutionVisible = !_solutionVisible;
+            });
           }
         },
         deleteButtonTooltipMessage: 'ลบตัวเลข',
