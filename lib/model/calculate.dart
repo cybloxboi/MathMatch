@@ -8,6 +8,7 @@ Map<int, List<int>> factorizeNumbers(List<int> numbers) {
     List<int> factors = [];
 
     for (int i = 1; i <= number; i++) {
+      // หาตัวหารลงตัว
       if (number % i == 0) {
         factors.add(i);
       }

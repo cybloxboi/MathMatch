@@ -167,40 +167,36 @@ class _HomePage extends State<HomePage> {
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(16),
-                          child: AnimatedSize(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                            child: Builder(
-                              builder: (_) {
-                                if (numbers.isEmpty) {
-                                  return const Text(
-                                    'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)',
-                                  );
-                                } else {
-                                  return Column(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: TextButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              numbers.clear();
-                                            });
-                                          },
-                                          child: const Text('ล้างทั้งหมด'),
-                                        ),
+                          child: Builder(
+                            builder: (_) {
+                              if (numbers.isEmpty) {
+                                return const Text(
+                                  'จำนวนตัวเลขที่กรอกจะปรากฎที่นี่ :)',
+                                );
+                              } else {
+                                return Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            numbers.clear();
+                                          });
+                                        },
+                                        child: const Text('ล้างทั้งหมด'),
                                       ),
-                                      const SizedBox(height: 8),
-                                      Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
-                                        children: numbersWidget.toList(),
-                                      ),
-                                    ],
-                                  );
-                                }
-                              },
-                            ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Wrap(
+                                      spacing: 8,
+                                      runSpacing: 8,
+                                      children: numbersWidget.toList(),
+                                    ),
+                                  ],
+                                );
+                              }
+                            },
                           ),
                         ),
                       ),
