@@ -1,4 +1,8 @@
+import 'package:intl/intl.dart';
+
 enum Calculate { gcd, lcm }
+
+NumberFormat formatter = NumberFormat.decimalPatternDigits();
 
 // แยกตัวประกอบ
 Map<int, List<int>> factorizeNumbers(List<int> numbers) {

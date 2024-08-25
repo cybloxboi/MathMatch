@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:math_match/main.dart';
 import 'package:math_match/model/calculate.dart';
 import 'package:math_match/widgets/app_bar.dart';
 import 'package:math_match/widgets/solution_card.dart';
