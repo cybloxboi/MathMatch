@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:math_match/main.dart';
 import 'package:math_match/model/calculate.dart';
+import 'package:math_match/screens/proof_page.dart';
 import 'package:math_match/widgets/app_bar.dart';
 import 'package:math_match/widgets/solution_card.dart';
 
@@ -225,9 +226,31 @@ class _HomePage extends State<HomePage> {
                     opacity: _solutionVisible ? 1 : 0,
                     duration: Durations.medium2,
                     child: numbers.isNotEmpty && _solutionVisible
-                        ? solutionCard(
-                            _value == Calculate.gcd,
-                            numbers,
+                        ? Column(
+                            children: [
+                              solutionCard(
+                                _value == Calculate.gcd,
+                                numbers,
+                              ),
+                              SizedBox(height: widget.sizeBetween),
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProofPage(
+                                        appTitle: widget.appTitle,
+                                        numbers: numbers,
+                                        sizeBetween: widget.sizeBetween,
+                                        boxConstraints: boxConstraints,
+                                        numbersWidget: numbersWidget,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: const Text('พิสูจน์ผลคำนวณ'),
+                              ),
+                            ],
                           )
                         : const SizedBox.shrink(),
                   ),

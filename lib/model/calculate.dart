@@ -91,3 +91,53 @@ int findGCD(List<int> numbers) {
 
   return commonFactors.last;
 }
+
+List<List<int>> iep(List<int> numbers) {
+  int n = numbers.length;
+  List<List<int>> factors = [];
+  List<List<int>> factors2 = [];
+  List<List<int>> factors3 = [];
+
+  factors3.add([]);
+
+  int index = 0;
+
+  for (int i = 1; i < n; i++) {
+    for (int j = i + 1; j <= n; j++) {
+      factors.add([numbers[i - 1]]);
+      factors[index].add(numbers[j - 1]);
+      index++;
+    }
+  }
+
+  index = 0;
+
+  if (n >= 4) {
+    for (int i = 1; i < n; i++) {
+      for (int j = i + 1; j <= n; j++) {
+        for (int k = j + 1; k <= n; k++) {
+          factors2.add([numbers[i - 1]]);
+          factors2[index].add(numbers[j - 1]);
+          factors2[index].add(numbers[k - 1]);
+          index++;
+        }
+      }
+    }
+  }
+
+  for (int i = 1; i <= n; i++) {
+    factors3[0].add(numbers[i - 1]);
+  }
+
+  return factors + factors2 + factors3;
+}
+
+List<int> proofGCD(List<List<int>> iep) {
+  List<int> frac = [];
+
+  for (List<int> numbers in iep) {
+    frac.add(findGCD(numbers));
+  }
+
+  return frac;
+}
