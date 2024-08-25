@@ -4,8 +4,6 @@ import 'package:math_match/widgets/app_bar.dart';
 import 'package:math_match/widgets/solution_card.dart';
 import 'package:tex_text/tex_text.dart';
 
-import '../main.dart';
-
 class ProofPage extends StatelessWidget {
   const ProofPage({
     super.key,
