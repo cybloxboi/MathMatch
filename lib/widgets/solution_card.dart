@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:math_match/main.dart';
 import 'package:math_match/model/calculate.dart';
 
 Widget solutionCard(bool isGCD, List<int> numbers) {
