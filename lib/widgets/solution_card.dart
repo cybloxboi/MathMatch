@@ -27,6 +27,7 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
             commonFactors,
             factors,
             gcd,
+            true,
           );
         },
       ),
@@ -66,6 +67,7 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
             commonFactors,
             factorsMap,
             lcmResult,
+            false,
           );
         },
       ),
@@ -126,11 +128,13 @@ Column factorsChips(
   List<int> commonFactors,
   Map<int, List<int>> factors,
   int result,
+  bool isGcd,
 ) {
   return Column(
     children: [
       ListTile(
-        title: Text('ตัวประกอบของ ${formatter.format(numbers[index])} คือ'),
+        title: Text(
+            '${isGcd ? 'ตัวประกอบ' : 'ตัวคูณร่วม'} ของ ${formatter.format(numbers[index])} คือ'),
       ),
       Wrap(
         spacing: 8,
