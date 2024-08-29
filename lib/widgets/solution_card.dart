@@ -21,13 +21,16 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('ตัวประกอบของ ${numbers[index]} คือ'),
-            subtitle: Text(listToString(factors[numbers[index]]!)),
+          return factorsChips(
+            numbers,
+            index,
+            commonFactors,
+            factors,
+            gcd,
           );
         },
       ),
-      const SizedBox(height: 8),
+      const SizedBox(height: 32),
       Text(
           'ตัวประกอบร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
       const SizedBox(height: 8),
@@ -57,16 +60,18 @@ Widget solutionCard(bool isGCD, List<int> numbers) {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('ตัวคูณของ ${numbers[index]} คือ'),
-            subtitle: Text(
-                '${factorsMap[numbers[index]]!.first != numbers[index] ? '...' : ''}${listToString(factorsMap[numbers[index]]!)}...'),
+          return factorsChips(
+            numbers,
+            index,
+            commonFactors,
+            factorsMap,
+            lcmResult,
           );
         },
       ),
-      const SizedBox(height: 8),
+      const SizedBox(height: 32),
       Text(
-          'ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}...'),
+          'ตัวคูณร่วมของ ${listToString(numbers)} คือ ${listToString(commonFactors)}'),
       const SizedBox(height: 8),
       Text(
         'ดังนั้น ค.ร.น. ของ ${listToString(numbers)} คือ ${formatter.format(lcmResult)}',
@@ -113,4 +118,41 @@ String listToString(List<int> numbers) {
   }
 
   return text;
+}
+
+Column factorsChips(
+  List<int> numbers,
+  int index,
+  List<int> commonFactors,
+  Map<int, List<int>> factors,
+  int result,
+) {
+  return Column(
+    children: [
+      ListTile(
+        title: Text('ตัวประกอบของ ${formatter.format(numbers[index])} คือ'),
+      ),
+      Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: factors[numbers[index]]!.map((e) {
+          Color? backgroundColor;
+
+          if (e == result) {
+            backgroundColor = Colors.lightBlueAccent;
+          } else if (commonFactors.contains(e)) {
+            backgroundColor = Colors.lightGreenAccent;
+          }
+
+          return Chip(
+            label: Text(
+              formatter.format(e),
+              style: TextStyle(color: e == result ? Colors.white : null),
+            ),
+            backgroundColor: backgroundColor,
+          );
+        }).toList(),
+      ),
+    ],
+  );
 }
