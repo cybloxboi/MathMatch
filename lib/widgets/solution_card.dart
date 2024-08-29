@@ -134,7 +134,7 @@ Column factorsChips(
     children: [
       ListTile(
         title: Text(
-            '${isGcd ? 'ตัวประกอบ' : 'ตัวคูณร่วม'} ของ ${formatter.format(numbers[index])} คือ'),
+            '${isGcd ? 'ตัวประกอบ' : 'ตัวคูณร่วม'}ของ ${formatter.format(numbers[index])} คือ'),
       ),
       Wrap(
         spacing: 8,
