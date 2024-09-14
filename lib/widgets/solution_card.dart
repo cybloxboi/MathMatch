@@ -143,15 +143,16 @@ Column factorsChips(
           Color? backgroundColor;
 
           if (e == result) {
-            backgroundColor = Colors.lightBlueAccent;
+            backgroundColor = const Color(0xff008500);
           } else if (commonFactors.contains(e)) {
-            backgroundColor = Colors.lightGreenAccent;
+            backgroundColor = const Color(0xff0290ee);
           }
 
           return Chip(
             label: Text(
               formatter.format(e),
-              style: TextStyle(color: e == result ? Colors.white : null),
+              style: TextStyle(
+                  color: backgroundColor != null ? Colors.white : null),
             ),
             backgroundColor: backgroundColor,
           );

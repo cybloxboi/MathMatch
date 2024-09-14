@@ -177,9 +177,35 @@ class _HomePage extends State<HomePage> {
                                       alignment: Alignment.centerRight,
                                       child: TextButton(
                                         onPressed: () {
-                                          setState(() {
-                                            numbers.clear();
-                                          });
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) => AlertDialog(
+                                              title: const Text('แน่ใจนะ?'),
+                                              content: const Text(
+                                                  'ดูเหมือนว่าคุณต้องการล้างค่าตัวเลขที่กรอกไว้ คุณต้องการล้างตัวเลขทั้งหมดหรือไม่?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      numbers.clear();
+                                                    });
+
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child:
+                                                      const Text('ใช่ ล้างเลย'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text(
+                                                      'ไม่ เดี๋ยวก่อนนะ'),
+                                                ),
+                                              ],
+                                              elevation: 24,
+                                            ),
+                                          );
                                         },
                                         child: const Text('ล้างทั้งหมด'),
                                       ),
