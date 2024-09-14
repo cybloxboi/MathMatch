@@ -17,7 +17,7 @@ class MathMatch extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        textTheme: GoogleFonts.kanitTextTheme(textTheme),
+        textTheme: GoogleFonts.sarabunTextTheme(textTheme),
       ),
       home: const HomePage(),
     );

@@ -42,10 +42,8 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const BoxConstraints boxConstraints = BoxConstraints(
-      minWidth: 350,
-      maxWidth: 500,
-    );
+    BoxConstraints boxConstraints =
+        const BoxConstraints(minWidth: 350, maxWidth: 600);
 
     return Scaffold(
       appBar: appBarTitle(context, widget.appTitle),
