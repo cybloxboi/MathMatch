@@ -9,15 +9,12 @@ class MathMatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return MaterialApp(
       title: 'MathMatch',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        textTheme: GoogleFonts.sarabunTextTheme(textTheme),
+        textTheme: GoogleFonts.sarabunTextTheme(),
       ),
       home: const HomePage(),
     );

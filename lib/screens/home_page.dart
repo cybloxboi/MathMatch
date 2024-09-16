@@ -14,12 +14,16 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePage();
 }
 
-class _HomePage extends State<HomePage> {
+class _HomePage extends State<HomePage> with WidgetsBindingObserver {
   late Calculate _value;
   late List<int> numbers;
   late TextEditingController controller;
   late bool _solutionVisible;
   late GlobalKey<FormState> _formKey;
+  final BoxConstraints boxConstraints = const BoxConstraints(
+    minWidth: 350,
+    maxWidth: 600,
+  );
 
   @override
   void initState() {
@@ -31,6 +35,8 @@ class _HomePage extends State<HomePage> {
     numbers = [];
     _value = Calculate.lcm;
     numbers = [];
+
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -38,13 +44,11 @@ class _HomePage extends State<HomePage> {
     super.dispose();
 
     controller.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
   Widget build(BuildContext context) {
-    BoxConstraints boxConstraints =
-        const BoxConstraints(minWidth: 350, maxWidth: 600);
-
     return Scaffold(
       appBar: appBarTitle(context, widget.appTitle),
       body: SafeArea(
@@ -248,9 +252,10 @@ class _HomePage extends State<HomePage> {
                     opacity: _solutionVisible ? 1 : 0,
                     duration: Durations.medium2,
                     child: numbers.isNotEmpty && _solutionVisible
-                        ? solutionCard(
-                            _value == Calculate.gcd,
-                            numbers,
+                        ? SolutionCard(
+                            isGcd: _value == Calculate.gcd,
+                            numbers: numbers,
+                            boxConstraints: boxConstraints,
                           )
                         : const SizedBox.shrink(),
                   ),

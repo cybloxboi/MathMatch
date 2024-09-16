@@ -72,7 +72,7 @@ PreferredSizeWidget appBarTitle(BuildContext context, String appTitle) {
                             SizedBox(height: 35),
                             Divider(),
                             SizedBox(height: 35),
-                            Text('เวอร์ชั่น v1.0.3'),
+                            Text('เวอร์ชั่น v1.0.4'),
                             SizedBox(height: 35),
                           ],
                         ),
