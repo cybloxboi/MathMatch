@@ -13,6 +13,7 @@ class MathMatch extends StatelessWidget {
       title: 'MathMatch',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         textTheme: GoogleFonts.sarabunTextTheme(),
       ),
