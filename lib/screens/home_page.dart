@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePage();
 }
 
-class _HomePage extends State<HomePage> {
+class _HomePage extends State<HomePage> with WidgetsBindingObserver {
   late Calculate _value;
   late List<int> numbers;
   late TextEditingController controller;
@@ -35,6 +35,8 @@ class _HomePage extends State<HomePage> {
     numbers = [];
     _value = Calculate.lcm;
     numbers = [];
+
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -42,6 +44,7 @@ class _HomePage extends State<HomePage> {
     super.dispose();
 
     controller.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
